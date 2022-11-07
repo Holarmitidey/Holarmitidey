@@ -1,0 +1,6 @@
+---
+- name: Upgrade System
+  apt: upgrade=dist update_cache=yes
+
+- name: update system
+  command: apt update

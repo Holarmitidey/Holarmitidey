@@ -1,0 +1,18 @@
+---
+- name: Update "apt"
+  apt:
+    update_cache: yes
+    autoclean: yes
+
+- name: Install Software properties
+  command: apt install software-properties-common
+
+- name: Add Apt Repo for PHP
+  command: add-apt-repository ppa:ondrej/php
+  
+
+- name: install php8.1
+  apt: name="{{php_whole}}" state=latest
+  
+#- name: ensure php8-fpm cgi.fix_pathinfo=0
+# lineinfile: dest=/etc/php/8.1/apache2/php.ini regexp='^(.*)cgi.fix_pathinfo=' line=cgi.fix_pathinfo=0

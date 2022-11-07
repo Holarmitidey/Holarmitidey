@@ -1,0 +1,12 @@
+---
+- hosts: all
+  become: true
+  become_user: root
+  gather_facts: false
+  roles:
+  - git
+  - apache
+  - php
+  - composer
+  - mysql
+  - deploy

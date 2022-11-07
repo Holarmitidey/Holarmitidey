@@ -1,0 +1,6 @@
+---
+# vars file for /etc/ansible/roles/deploy
+
+remote_root: /var/www
+
+root_dir: laravel

@@ -1,0 +1,6 @@
+---
+# vars file for /etc/ansible/roles/mysql
+mysql_root_password:  Ganiyu@18
+db_name: laravel
+db_user: exam
+db_pass: Ganiyu@18

@@ -1,0 +1,35 @@
+---
+# tasks file for /etc/ansible/roles/apache
+
+- name: Install Apache2
+  apt: name=apache2 update_cache=yes state=latest
+
+# Apache2 Configuration
+#- name: copy vhost to salve
+# template:
+#  src: "laravel.conf.j2"
+# dest: "{{path_vhost}}"
+
+- name: Copy vhosts for slave
+  template: src=laravel.conf.j2 dest="/etc/apache2/sites-available/laravel.conf" owner=www-data group=www-data mode=0644
+
+- name: Enables new site
+  file:
+    src: "/etc/apache2/sites-available/laravel.conf"
+    dest: "/etc/apache2/sites-enabled/laravel.conf"
+    state: link
+    force: yes
+
+- name: Removes "default" site
+  file:
+    path: "/etc/apache2/sites-enabled/000-default.conf"
+    state: absent
+
+- name: Update a2ensite
+  command: a2ensite laravel
+
+- name: Enable the Apache rewrite module
+  command:  a2enmod rewrite
+
+  notify:
+    - restart apache2

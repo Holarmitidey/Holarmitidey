@@ -1,0 +1,4 @@
+---
+# vars file for /etc/ansible/roles/php
+php_whole: ['php8.1', 'libapache2-mod-php', 'php8.1-dev', 'php8.1-zip', 'php8.1-curl', 'php8.1-mbstring', 'php8.1-mysql', 'php8.1-gd', 'php8.1-xml', 'php8.1-fpm']
+# refrence: https://github.com/michaelagbiaowei/altschool-cloud-exercises/tree/main/Mimi-Project

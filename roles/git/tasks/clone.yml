@@ -1,0 +1,5 @@
+---
+- name: Clone laravel repository
+  git:
+    dest: "{{ remote_root }}/{{ root_dir }}"
+    repo: "{{git_repo_url}}"

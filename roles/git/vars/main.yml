@@ -1,0 +1,10 @@
+---
+# vars file for /etc/ansible/roles/git
+
+git_repo_url: https://github.com/Holarmitidey/laravel.git
+
+root_dir: laravel
+
+remote_root: /var/www
+
+remote_user: Exam-master

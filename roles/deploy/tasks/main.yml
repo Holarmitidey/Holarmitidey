@@ -1,0 +1,70 @@
+---
+# tasks file for /etc/ansible/roles/deploy
+
+- name: Set up laravel-env file
+  template:
+    src: laravel-env.j2
+    dest: "{{ remote_root }}/{{ root_dir }}/.env"
+
+#- name: install all requirements with composer
+#  composer:
+#    arguments:
+#      command: install --no-dev    
+#      working_dir: "{{ remote_root }}/{{ root_dir }}"
+
+#- name: Install Dependencies with Composer
+#  become: false
+#  composer:
+#    command: install
+#    working_dir: "{{ remote_root }}/{{ root_dir }}"
+#  tags: [ 'composer:install' ]
+#  ignore_errors: yes
+
+- name: Create the web.php file in the routes directory
+  ansible.builtin.copy:
+     dest: "{{ remote_root }}/{{ root_dir }}/routes/web.php"
+     content: |
+        <?php
+
+         Route::get('/', function () {
+              return view('welcome');
+          });
+
+- name: Generate app key
+  command: "/usr/bin/php {{ remote_root }}/{{ root_dir }}/artisan key:generate"
+  tags: [ 'laravel', 'artisan:key' ]
+
+
+- name: Set up app storage link
+  command: "/usr/bin/php {{ remote_root }}/{{ root_dir }}/artisan storage:link"
+  tags: [ 'laravel', 'artisan:storage' ]
+
+
+- name: Run Migrations + Seeders
+  command: "/usr/bin/php {{ remote_root }}/{{ root_dir }}/artisan migrate --seed"
+  tags: [ 'laravel', 'artisan:migrate' ]
+
+- name: Allow HTTP
+  ufw:
+    rule: allow
+    port: "80"
+    proto: tcp
+
+- name: Allow HTTPS
+  ufw:
+    rule: allow
+    port: "443"
+    proto: tcp
+      
+- name: Allow SSH
+  ufw:
+    rule: allow
+    port: "22"
+    proto: tcp
+
+#- name: Allow MySQL
+#  rule: allow
+#    port: "3306"
+#    proto: tcp
+
+# refrence:https://github.com/Holarmitidey/ansible-laravel-demo/blob/master/laravel-deploy.yml

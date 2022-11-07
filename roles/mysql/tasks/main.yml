@@ -1,0 +1,110 @@
+---
+# tasks file for /etc/ansible/roles/mysql
+- name: Installing Mysql  and dependencies
+  package:
+     name: "{{item}}"
+     state: present
+     update_cache: yes
+  loop:
+    - mysql-server
+    - mysql-client
+    - python3-mysqldb
+    - libmysqlclient-dev
+  become: yes
+       
+- name: start and enable mysql service
+  service:
+     name: mysql
+     state: started
+     enabled: yes
+
+- name: creating mysql user (medium_post)
+  mysql_user:
+      name: "{{db_user}}"
+      password: "{{db_pass}}"
+      priv: '*.*:ALL'
+      host: '%'
+      state: present
+    
+- name: creating medium_db 
+  mysql_db:
+       name: "{{db_name}}"
+       state: present
+    
+- name: Enable remote login to mysql
+  lineinfile:
+        path: /etc/mysql/mysql.conf.d/mysqld.cnf
+        regexp: '^bind-address'
+        line: 'bind-address = 0.0.0.0'
+        backup: yes
+  notify:
+      - Restart mysql
+#- name: update package list
+#  apt: update_cache= yes  cache_valid_time= 3600
+
+#- name: Install pip
+#  apt:
+#    name: python3-pip
+#    state: present
+
+#- name: install packages
+#  apt: name={{ item }} update_cache=yes state=present
+#  loop: [ 'python3', 'python-pip', 'vim' ]
+
+#- name: Install Mysql & mysql-python prereq 
+#  apt: name={{ item }} update_cache=yes state=latest
+#  loop: [ 'mysql-server', 'python3-pymysql' ]
+
+
+#- name: Install PyMySQL
+#  pip:
+#    name: pymysql
+
+#– name: Install pip
+#  apt:
+#   name: python2-pip
+#   state: present
+
+#– name: Install pymysql 
+#  pip:
+#   name: pymysql
+#   state: present
+
+# Mysql Configuration
+#- name: Sets the root password
+#  mysql_user:
+#    name: root
+#    password: "{{ mysql_root_password }}"
+#    login_unix_socket: /var/run/mysqld/mysqld.sock
+#  no_log: false
+
+# - name: Removes all anonymous user accounts
+#   mysql_user:
+#     name: ''
+#     host_all: yes
+#     state: absent
+#     login_unix_socket: /var/run/mysqld/mysqld.sock
+#   no_log: true
+
+#- name: Removes the MySQL test database
+#   mysql_db:
+#     name: test
+#     state: absent
+#     login_unix_socket: /var/run/mysqld/mysqld.sock
+
+#- name: Creates App Database
+#   mysql_db:
+#     name: "{{ mysql_app_db }}"
+#     state: present
+#     login_unix_socket: /var/run/mysqld/mysqld.sock
+
+# - name: Create App MySQL user and grants access to App DB
+#   mysql_user:
+#     name: "{{ mysql_app_user }}"
+#     password: "{{ mysql_app_pass }}"
+#     priv: "{{ mysql_app_db }}.*:ALL"
+#     state: present
+#     login_unix_socket: /var/run/mysqld/mysqld.sock
+#   no_log: true
+
+# refrence: https://github.com/do-community/ansible-laravel-demo/blob/master/roles/mariadb/tasks/main.yml

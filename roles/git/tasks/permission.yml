@@ -1,0 +1,25 @@
+---
+- name: Make sure the remote app root exists and has the right permissions
+  file:
+    path: "{{ remote_root }}/{{ root_dir }}"
+    state: directory
+    mode: '0755'
+    owner: "{{ remote_user }}"
+    group: "{{ remote_user }}"
+
+
+- name: Set up additional directory permissions for www-data user on storage folder
+  file:
+    path: "{{ remote_root }}/{{ root_dir }}/storage/logs/laravel.log"
+    mode: '0777'
+    owner: "{{ remote_user }}"
+    state: directory
+
+- name: Set up additional directory permissions for www-data user on bootst
+  file:
+    path: "{{ remote_root }}/{{ root_dir }}/bootstrap/cache"
+    state: directory
+    mode: '0777'
+    owner: "{{ remote_user }}"
+# reference: https://github.com/do-community/ansible-laravel-demo/blob/master/laravel-deploy.yml
+

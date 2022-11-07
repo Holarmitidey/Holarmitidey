@@ -1,0 +1,6 @@
+---
+# tasks file for /etc/ansible/roles/git
+- import_tasks: update.yml
+- import_tasks: install.yml
+- import_tasks: clone.yml
+- import_tasks: permission.yml
