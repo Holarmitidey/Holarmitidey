@@ -12,8 +12,7 @@
 ## 🌐 Connect with Me
 
 [[LinkedIn]](https://img.shields.io/badge/LinkedIn-Connect-blue)https://www.linkedin.com/in/olamide-ganiyu-0446a723a/
-[[Twitter]](https://img.shields.io/badge/Twitter-Follow-blue)]([https://twitter.com/yourtwitter](https://twitter.com/holarmitidhey))
-[![Website]](https://img.shields.io/badge/Portfolio-Visit-brightgreen)](https://yourportfolio.com)
+[[Twitter]](https://img.shields.io/badge/Twitter-Follow-blue)(https://twitter.com/holarmitidhey
 
 ## 🎵 Fun Fact
 
